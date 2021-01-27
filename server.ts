@@ -4,10 +4,11 @@ import colors from 'colors';
 
 export default async function oscServer(port: number) {
 
-    const server = createServer((socket) => {
+    const server = createServer();
 
-        console.log(`A client has connected from ${colors.green(socket.localAddress.split(':')[3])}`);
-    
+    server.on('connection', (socket) => {
+        console.log(`Client has connected from ${colors.green(socket.localAddress.split(':')[3])}`);
+
         socket.on('data', (data) => {
             const { address, args } = osc.fromBuffer(data);
             const mappedArgs = args.map((arg: any) => `${arg.value} (${arg.type})`);
@@ -15,13 +16,12 @@ export default async function oscServer(port: number) {
         });
 
         socket.on('error', (error) => {
-            console.log('Client disconnected with error');
+            console.error('Client disconnected with error');
         });
 
         socket.on('end', () => {
             console.log('Client disconnected');
         });
-
     });
 
     server.on('error', (error) => {
@@ -29,7 +29,7 @@ export default async function oscServer(port: number) {
     });
 
     server.listen(port, () => {
-        console.log(`Server is now listening on port ${colors.green(port.toString())} for incoming connections.`);
+        console.log(`Listening on port ${colors.green(port.toString())} for incoming connections`);
     });
 
 }

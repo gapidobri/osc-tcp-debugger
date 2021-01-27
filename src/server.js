@@ -46,15 +46,16 @@ function oscServer(port) {
     return __awaiter(this, void 0, void 0, function () {
         var server;
         return __generator(this, function (_a) {
-            server = net_1.createServer(function (socket) {
-                console.log("A client has connected from " + colors_1.default.green(socket.localAddress.split(':')[3]));
+            server = net_1.createServer();
+            server.on('connection', function (socket) {
+                console.log("Client has connected from " + colors_1.default.green(socket.localAddress.split(':')[3]));
                 socket.on('data', function (data) {
                     var _a = osc_min_1.default.fromBuffer(data), address = _a.address, args = _a.args;
                     var mappedArgs = args.map(function (arg) { return arg.value + " (" + arg.type + ")"; });
                     console.log(colors_1.default.blue(address) + " " + mappedArgs[0]);
                 });
                 socket.on('error', function (error) {
-                    console.log('Client disconnected with error');
+                    console.error('Client disconnected with error');
                 });
                 socket.on('end', function () {
                     console.log('Client disconnected');
@@ -64,7 +65,7 @@ function oscServer(port) {
                 console.log(error);
             });
             server.listen(port, function () {
-                console.log("Server is now listening on port " + colors_1.default.green(port.toString()) + " for incoming connections.");
+                console.log("Listening on port " + colors_1.default.green(port.toString()) + " for incoming connections");
             });
             return [2 /*return*/];
         });
