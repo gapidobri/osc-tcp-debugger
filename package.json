@@ -1,0 +1,27 @@
+{
+  "name": "osc-tcp-debugger",
+  "version": "1.0.0",
+  "description": "OSC Debugger for TCP",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src"
+  },
+  "keywords": [
+    "osc",
+    "tcp",
+    "debugger"
+  ],
+  "author": "Gašper Dobrovoljc",
+  "license": "ISC",
+  "dependencies": {
+    "@types/inquirer": "^7.3.1",
+    "@types/yargs": "^15.0.12",
+    "colors": "^1.4.0",
+    "inquirer": "^7.3.3",
+    "osc-min": "^1.1.2",
+    "yargs": "^16.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.22"
+  }
+}
