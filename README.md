@@ -3,5 +3,5 @@
 ## Usage
 
 ```sh
-npm start server -p [port]
+node ./src server -p [port]
 ```

@@ -48,27 +48,30 @@ function oscServer(port) {
         return __generator(this, function (_a) {
             server = net_1.createServer();
             server.on('connection', function (socket) {
-                console.log("Client has connected from " + colors_1.default.green(socket.localAddress.split(':')[3]));
+                dlog("Client connected from " + colors_1.default.green(socket.localAddress.split(':')[3]));
                 socket.on('data', function (data) {
                     var _a = osc_min_1.default.fromBuffer(data), address = _a.address, args = _a.args;
                     var mappedArgs = args.map(function (arg) { return arg.value + " (" + arg.type + ")"; });
-                    console.log(colors_1.default.blue(address) + " " + mappedArgs[0]);
+                    dlog(colors_1.default.blue(address) + " " + mappedArgs[0]);
                 });
                 socket.on('error', function (error) {
-                    console.error('Client disconnected with error');
+                    dlog('Client force disconnected');
                 });
                 socket.on('end', function () {
-                    console.log('Client disconnected');
+                    dlog('Client disconnected');
                 });
             });
             server.on('error', function (error) {
-                console.log(error);
+                dlog(error);
             });
             server.listen(port, function () {
-                console.log("Listening on port " + colors_1.default.green(port.toString()) + " for incoming connections");
+                dlog("Listening on port " + colors_1.default.green(port.toString()) + " for incoming connections");
             });
             return [2 /*return*/];
         });
     });
 }
 exports.default = oscServer;
+var dlog = function (message) {
+    console.log(("[" + new Date().toTimeString().split(' ')[0] + "] ").gray + message);
+};

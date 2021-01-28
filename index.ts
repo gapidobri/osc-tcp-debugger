@@ -5,7 +5,7 @@ import colors from 'colors';
 
 yargs
     .usage(
-        'OSC Debugger'
+        'OSC TCP Debugger'
     )
     .command(
         'server [options...]',
@@ -19,6 +19,24 @@ yargs
             },
         },
         async ({ port }) => await oscServer(Number.parseInt(port)),
+    )
+    .command(
+        'client [options...]',
+        'OSC TCP Client',
+        {
+            ip: {
+                alias: 'i',
+                default: '127.0.0.1',
+                demandOption: true,
+                describe: 'IP of the OSC server'
+            },
+            port: {
+                alias: 'p',
+                default: '3333',
+                demandOption: true,
+                describe: 'Port of the OSC server'
+            }
+        }
     )
     .help()
     .alias('h', 'help')
