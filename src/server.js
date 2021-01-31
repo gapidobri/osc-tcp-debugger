@@ -48,11 +48,13 @@ function oscServer(port) {
         return __generator(this, function (_a) {
             server = net_1.createServer();
             server.on('connection', function (socket) {
-                dlog("Client connected from " + colors_1.default.green(socket.localAddress.split(':')[3]));
+                dlog("Client connected from " + colors_1.default.green((socket.remoteAddress || socket.localAddress).split(':')[3]));
                 socket.on('data', function (data) {
                     var _a = osc_min_1.default.fromBuffer(data), address = _a.address, args = _a.args;
                     var mappedArgs = args.map(function (arg) { return arg.value + " (" + arg.type + ")"; });
-                    dlog(colors_1.default.blue(address) + " " + mappedArgs[0]);
+                    mappedArgs.forEach(function (arg) {
+                        dlog(colors_1.default.blue(address) + " " + arg);
+                    });
                 });
                 socket.on('error', function (error) {
                     dlog('Client force disconnected');

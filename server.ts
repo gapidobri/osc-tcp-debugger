@@ -7,12 +7,15 @@ export default async function oscServer(port: number) {
     const server = createServer();
 
     server.on('connection', (socket) => {
-        dlog(`Client connected from ${colors.green(socket.localAddress.split(':')[3])}`);
+        dlog(`Client connected from ${colors.green((socket.remoteAddress || socket.localAddress).split(':')[3])}`);
 
         socket.on('data', (data) => {
             const { address, args } = osc.fromBuffer(data);
             const mappedArgs = args.map((arg: any) => `${arg.value} (${arg.type})`);
-            dlog(`${colors.blue(address)} ${mappedArgs[0]}`);
+            mappedArgs.forEach((arg: string) => {
+                dlog(`${colors.blue(address)} ${arg}`);
+            });
+            
         });
 
         socket.on('error', (error) => {
